@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "daps-ui"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+plexapi = "^4.15.16"
+tqdm = "^4.66.5"
+pathvalidate = "^3.2.1"
+arrapi = "^1.4.13"
+pyyaml = "^6.0.2"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

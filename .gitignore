@@ -1,0 +1,5 @@
+scraps/
+*__pycache__
+.vscode/
+cache.json
+dev_config/
