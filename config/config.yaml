@@ -1,0 +1,35 @@
+instances:
+  radarr:
+    radarr_uhd:
+      url: 
+      api: 
+    radarr_hd: 
+      url: 
+      api: 
+  sonarr:
+    sonarr_uhd: 
+      url: 
+      api: 
+    sonarr_hd:
+      url:
+      api: 
+    sonarr_anime:
+      url: 
+      api: 
+  plex:
+    plex:
+      url: 
+      api:
+
+poster_renamerr:
+  asset_folders: # False
+  library_names:
+    # - Movies
+    # - TV Shows
+  source_directories:
+      # -  /plex-posters/folder     
+  target_directory: # /assets  
+  instances:
+    # - plex
+    # - radarr_uhd
+    # - sonarr_hd
