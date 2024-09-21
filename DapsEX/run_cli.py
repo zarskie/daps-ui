@@ -1,19 +1,15 @@
-from daps_ui import PosterRenamerr, Media, Radarr, Sonarr, Server, Config, utils
+from DapsEX import Settings, PosterRenamerr, Media, Radarr, Sonarr, Server, YamlConfig, utils
 
 
 def main():
-    script_name = "poster_renamerr"
-    cache_file = r".\\cache.json"
-    config = Config(script_name, config_path=r".\\config\\config.yaml")
+    config = YamlConfig(Settings.POSTER_RENAMERR.value)
+    payload = config.create_poster_renamer_payload()
     media = Media()
-    source_directory = config.script_config.get("source_directories")
-    target_directory = config.script_config.get("target_directory")
-    asset_folders = config.script_config.get("asset_folders")
     renamer = PosterRenamerr(
-        target_directory, source_directory, asset_folders, cache_file
+        payload.target_path, payload.source_dirs, payload.asset_folders, Settings.CACHE_FILE.value
     )
-    radarr_instances, sonarr_instances = config.create_arr_instances(Radarr, Sonarr)
-    plex_instances = config.create_plex_instances(Server)
+    radarr_instances, sonarr_instances = utils.create_arr_instances(payload, Radarr, Sonarr)
+    plex_instances = utils.create_plex_instances(payload, Server)
     all_movies, all_series = utils.get_combined_media_lists(
         radarr_instances, sonarr_instances
     )
@@ -27,8 +23,7 @@ def main():
     matched_files = renamer.match_files_with_media(
         source_files, media_dict, collections_dict
     )
-    # print()
-    if asset_folders:
+    if payload.asset_folders:
         asset_folder_names = renamer.create_asset_directories(
             collections_dict, media_dict
         )

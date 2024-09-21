@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+            <link rel="stylesheet"
+                  type="text/css"
+                  href="{{ url_for('static', filename='css/layout.css') }}">
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+                  rel="stylesheet">
+        {% endblock head %}
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <a href="{{ url_for("home.home_route") }}">
+                <h2 class="text-primary">DapsEx</h2>
+            </a>
+        </nav>
+        <div class="layout">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Settings Link -->
+                <a href="{{ url_for("settings.settings_route") }}" class="sidebar-item">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+                <!-- Poster Renamer Link -->
+                <a href="{{ url_for("poster_renamer.poster_renamer_route") }}"
+                   class="sidebar-item">
+                    <i class="fa-solid fa-image"></i> Poster Renamerr
+                </a>
+            </div>
+            <div id="layout-content-div">
+                {% block layout_content_div %}
+                {% endblock layout_content_div %}
+            </div>
+        </div>
+        <!-- Script Block -->
+        {% block script_content %}
+        {% endblock script_content %}
+        <script type="text/javascript"
+                src="{{ url_for('static', filename='js/layout.js') }}"></script>
+    </body>
+</html>

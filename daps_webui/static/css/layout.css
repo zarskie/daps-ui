@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --primary: #EB1616;
+  --secondary: #191C24;
+  --light: #6C7293;
+  --dark: #000000;
+}
+
+body {
+  background-color: #000000;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+/* Navbar at the top */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: var(--secondary);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.navbar a {
+  text-decoration: none;
+  color: var(--primary);
+  padding: 10px;
+}
+
+.layout{
+  display: flex;
+  flex-grow: 1;
+  height: calc(100vh - 60px);
+  margin-top: 60px;
+  overflow: hidden;
+}
+
+/* Sidebar on the left */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  width: 250px;
+  background-color: var(--secondary);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-item {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: var(--primary);
+  width: 200px;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.sidebar a:hover {
+  background-color: var(--dark);
+  font-weight: 500;
+}
+
+/* Sidebar and content layout using Flexbox */
+#layout-content-div {
+  flex-grow: 1;
+  margin-left: 250px;
+  padding: 20px;
+  overflow-y: auto;
+  width: 100% ;
+  height: 100%;
+}
+
+/* Responsive adjustments for mobile and tablets */
+@media (max-width: 768px) {
+  .sidebar {
+      width: 200px;
+  }
+
+  #layout-content-div {
+      margin-left: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar {
+      width: 150px;
+  }
+
+  #layout-content-div {
+      margin-left: 150px;
+  }
+
+  .navbar a {
+      font-size: 20px;
+  }
+}

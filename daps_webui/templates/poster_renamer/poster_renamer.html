@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block head %}
+    <head>
+        <title>Poster Renamer</title>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta charset="UTF-8">
+        <meta name="description" content="">
+        <meta name="keywords" content=", ">
+        <meta name="author" content="">
+        <link rel='stylesheet'
+                type='text/css'
+                href="{{ url_for('static', filename='css/settings/settings.css') }}">
+        {{ super() }}
+    </head>
+{% endblock head %}
+{% block layout_content_div %}   
+    <button class="btn btn-primary btn-run" id="run-renamer">RUN</button>
+
+{% endblock layout_content_div %}
+{% block script_content %}
+<script type="text/javascript"
+        src="{{ url_for('static', filename='js/poster_renamer/poster_renamer.js') }}"></script>
+{% endblock script_content %}

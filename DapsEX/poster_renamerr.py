@@ -7,6 +7,7 @@ import shutil
 from pathvalidate import sanitize_filename
 import json
 import hashlib
+from DapsEX import Payload, utils, Settings
 
 
 class Media:
@@ -51,7 +52,9 @@ class Media:
         return media_dict, collections_dict
 
     @staticmethod
-    def _process_list(item: object, unique_set: set, final_dict: dict, key: str) -> None:
+    def _process_list(
+        item: object, unique_set: set, final_dict: dict, key: str
+    ) -> None:
         if item not in unique_set:
             unique_set.add(item)
             final_dict[key].append(item)
@@ -148,18 +151,17 @@ class Server:
                 show_collections_list.append(collection.title)
 
 
-class PosterRenamerr(Server):
+class PosterRenamerr:
     def __init__(
         self,
         target_path: str,
         source_directories: list,
         asset_folders: bool,
-        cache_file: str,
     ):
         self.target_path = Path(target_path)
         self.source_directories = source_directories
         self.asset_folders = asset_folders
-        self.cache_file = Path(cache_file)
+        self.cache_file = Path(Settings.CACHE_FILE.value)
         self.cache = self.load_cache()
 
     image_exts = {".png", ".jpg", ".jpeg"}
@@ -231,7 +233,7 @@ class PosterRenamerr(Server):
             "movies": [],
             "shows": [],
         }
-        
+
         flattened_col_list = [
             item for sublist in collections_dict.values() for item in sublist
         ]
@@ -282,7 +284,7 @@ class PosterRenamerr(Server):
                             matched = True
                             break
         return matched_files
-    
+
     @staticmethod
     def _match_show_season(file_name: str, show_name: str) -> bool:
         season_pattern = re.compile(
@@ -552,3 +554,32 @@ class PosterRenamerr(Server):
                 file_name_format = f"{item.name}"
                 return file_name_format
         return None
+
+    def run(self, payload: Payload) -> None:
+        media = Media()
+        radarr_instances, sonarr_instances = utils.create_arr_instances(
+            payload, Radarr, Sonarr
+        )
+        plex_instances = utils.create_plex_instances(payload, Server)
+        all_movies, all_series = utils.get_combined_media_lists(
+            radarr_instances, sonarr_instances
+        )
+        all_movie_collections, all_series_collections = (
+            utils.get_combined_collections_lists(plex_instances)
+        )
+        media_dict, collections_dict = media.get_dicts(
+            all_movies, all_series, all_movie_collections, all_series_collections
+        )
+        source_files = self.get_source_files()
+        matched_files = self.match_files_with_media(
+            source_files, media_dict, collections_dict
+        )
+        if self.asset_folders:
+            asset_folder_names = self.create_asset_directories(
+                collections_dict, media_dict
+            )
+            self.copy_rename_files_asset_folders(matched_files, asset_folder_names)
+            self.remove_deleted_files_from_cache(source_files)
+        else:
+            self.copy_rename_files(matched_files, collections_dict)
+            self.remove_deleted_files_from_cache

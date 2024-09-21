@@ -1,0 +1,15 @@
+services:
+  daps_webui: 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: daps_webui
+    restart: always
+    ports:
+     - 5000:5000
+    #  - 8000:8000
+    volumes:
+      - .:/code
+      - ./dev_config:/config
+      - /mnt/plex-posters:/posters
+      - /home/nick/pmm/sandbox/test:/assets/test
