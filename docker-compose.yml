@@ -1,12 +1,12 @@
 services:
-  daps_webui: 
+  daps_webui:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: daps_webui
     restart: always
     ports:
-     - 5000:5000
+      - 5000:5000
     #  - 8000:8000
     volumes:
       - .:/code

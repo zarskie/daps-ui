@@ -3,3 +3,5 @@ scraps/
 .vscode/
 cache.json
 dev_config/
+daps-ui.code-workspace
+lazygit*

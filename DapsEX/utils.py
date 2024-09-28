@@ -1,7 +1,9 @@
 from DapsEX import Payload
+from DapsEX.poster_renamerr import Radarr, Server, Sonarr
+
 
 def get_combined_media_lists(
-    radarr_instances: dict[str, list[object]], sonarr_instances: dict[str, list[object]]
+    radarr_instances: dict[str, Radarr], sonarr_instances: dict[str, Sonarr]
 ) -> tuple[list, list]:
     all_movies = []
     all_series = []
@@ -13,7 +15,7 @@ def get_combined_media_lists(
 
 
 def get_combined_collections_lists(
-    plex_instances: dict[str, list[object]]
+    plex_instances: dict[str, Server]
 ) -> tuple[list, list]:
     all_movie_collections = []
     all_series_collections = []
@@ -24,10 +26,11 @@ def get_combined_collections_lists(
 
 
 def create_arr_instances(
-    payload_class: Payload, radarr_class: object, sonarr_class: object
-) -> tuple[dict[str, list[object], dict[str, list[object]]]]:
-    radarr_instances = {}
-    sonarr_instances = {}
+    payload_class: Payload, radarr_class: type[Radarr], sonarr_class: type[Sonarr]
+) -> tuple[dict[str, Radarr], dict[str, Sonarr]]:
+    radarr_instances: dict[str, Radarr] = {}
+    sonarr_instances: dict[str, Sonarr] = {}
+
     for key, value in payload_class.radarr.items():
         if key in payload_class.instances:
             radarr_name = f"{key}"
@@ -44,8 +47,8 @@ def create_arr_instances(
 
 
 def create_plex_instances(
-    payload: Payload, plex_class: object
-) -> dict[str, list[object]]:
+    payload: Payload, plex_class: type[Server]
+) -> dict[str, Server]:
     plex_instances = {}
     for key, value in payload.plex.items():
         if key in payload.instances:

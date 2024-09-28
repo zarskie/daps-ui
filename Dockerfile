@@ -20,8 +20,8 @@ WORKDIR /code
 
 # Install system dependencies and Poetry
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y curl && \
-    curl -sSL https://install.python-poetry.org | python3 -
+  apt-get install -y curl && \
+  curl -sSL https://install.python-poetry.org | python3 -
 
 # Add Poetry to PATH
 ENV PATH="/root/.local/bin:$PATH"

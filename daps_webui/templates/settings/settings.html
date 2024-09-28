@@ -202,6 +202,7 @@
     <script type="text/javascript"
             src="{{ url_for('static', filename='js/settings/settings.js') }}"></script>
     <script type="text/javascript">
+    //TODO: Refactor to create all elements with JS
             document.addEventListener('DOMContentLoaded', function() {
             const sourceDirs = {{ source_dirs|tojson }};
             const libraryNames = {{ library_names|tojson }};

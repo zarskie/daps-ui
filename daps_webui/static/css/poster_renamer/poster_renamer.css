@@ -1,3 +1,24 @@
+.poster-renamer-container {
+    display: flex;
+    padding: 20px;
+}
+
+.content-box {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: auto;
+    height: auto;
+    min-height: 100px;
+}
+
+.run-renamer {
+    display: flex;
+}
+
 .btn {
     border: none;
     padding: 10px 15px;
@@ -5,15 +26,43 @@
     cursor: pointer;
     font-size: 12px;
     font-weight: 500;
-    transition: background-color 0.3s, transform 0.2s;
+    transition:
+        background-color 0.3s,
+        transform 0.2s;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #EB1616;
+    background-color: #eb1616;
 }
 
-.btn:hover{
+.btn:hover {
     background-color: #c71212;
     transform: scale(1.05);
+}
+
+.btn-run {
+    margin-top: 10px;
+}
+
+.progress-label {
+    color: white;
+}
+.progress-container {
+    width: 300px;
+    height: 30px;
+    background-color: #333;
+}
+
+.progress {
+    width: 0%;
+    height: 30px;
+    background-color: transparent;
+    text-align: center;
+    line-height: 30px;
+    color: black;
+    font-weight: bold;
+    transition: width 0.5s ease-in-out;
+    padding-left: 10px;
+    box-sizing: border-box;
 }
