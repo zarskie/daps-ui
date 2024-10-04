@@ -1,273 +1,63 @@
 {% extends "layout.html" %}
 {% block head %}
-    <head>
-        <title>Settings</title>
-        <meta charset='utf-8'>
-        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-        <meta name='viewport' content='width=device-width, initial-scale=1'>
-        <meta charset="UTF-8">
-        <meta name="description" content="">
-        <meta name="keywords" content=", ">
-        <meta name="author" content="">
-        <link rel='stylesheet'
-              type='text/css'
-              href="{{ url_for('static', filename='css/settings/settings.css') }}">
-        {{ super() }}
-    </head>
+
+<head>
+    <title>Settings</title>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content=", ">
+    <meta name="author" content="">
+    <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='css/settings/settings.css') }}">
+    {{ super() }}
+</head>
 {% endblock head %}
 {% block layout_content_div %}
-    <div class="settings-container">
-        <div class="content-box">
-            <h2 class="content-heading">Instances</h2>
-            <hr class="seperator">
-            <form id="instances-form">
-                <!-- RADARR Instance -->
-                <div id="radarr-group-wrapper">
-                    <label class="form-name" for="radarr">Radarr</label>
-                    <div class="form-group" id="radarr-group">
-                        <label class="form-label" for="instance">Instance</label>
-                        <div class="instance-btn-group">
-                            <input id="radarr-instance-name"
-                                   type="text"
-                                   name="radarr[instance-name][]"
-                                   placeholder="radarr_1"
-                                   value="{{ radarr_instances[0]['instance_name'] if radarr_instances else '' }}"
-                                   class="form-input">
-                            <button class="btn btn-test" type="button" id="test-radarr">Test</button>
-                        </div>
-                        <label class="form-label" for="url">URL</label>
-                        <input id="radarr-instance-url"
-                               type="text"
-                               name="radarr[url][]"
-                               placeholder="http://localhost:7878"
-                               value="{{ radarr_instances[0]['url'] if radarr_instances else '' }}"
-                               class="form-input">
-                        <label class="form-label" for="api">API</label>
-                        <input id="radarr-api-key"
-                               type="text"
-                               name="radarr[api-key][]"
-                               placeholder="api-key"
-                               value="{{ radarr_instances[0]['api_key'] if radarr_instances else '' }}"
-                               class="form-input">
-                    </div>
-                    <div id="dynamic-instance-seperator"></div>
-                    <div id="dynamic-radarr-instance-div"></div>
-                    <button class="btn btn-primary btn-add" type="button" id="add-radarr">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Add Radarr
-                    </button>
-                </div>
-                <!-- SONARR Instance -->
-                <div id="sonarr-group-wrapper">
-                    <label class="form-name" for="sonarr">Sonarr</label>
-                    <div class="form-group" id="sonarr-group">
-                        <label class="form-label" for="instance">Instance</label>
-                        <div class="instance-btn-group">
-                            <input id="sonarr-instance-name"
-                                   type="text"
-                                   name="sonarr[instance-name][]"
-                                   placeholder="sonarr_1"
-                                   value="{{ sonarr_instances[0]['instance_name'] if sonarr_instances else '' }}"
-                                   class="form-input">
-                            <button class="btn btn-test" type="button" id="test-sonarr">Test</button>
-                        </div>
-                        <label class="form-label" for="url">URL</label>
-                        <input id="sonarr-instance-url"
-                               type="text"
-                               name="sonarr[url][]"
-                               placeholder="http://localhost:8989"
-                               value="{{ sonarr_instances[0]['url'] if sonarr_instances else '' }}"
-                               class="form-input">
-                        <label class="form-label" for="api">API</label>
-                        <input id="sonarr-api-key"
-                               type="text"
-                               name="sonarr[api-key][]"
-                               placeholder="api-key"
-                               value="{{ sonarr_instances[0]['api_key'] if sonarr_instances else '' }}"
-                               class="form-input">
-                    </div>
-                    <div id="dynamic-sonarr-instance-div"></div>
-                    <button class="btn btn-primary btn-add" type="button" id="add-sonarr">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Add Sonarr
-                    </button>
-                </div>
-                <!-- PLEX Instance -->
-                <div id="plex-group-wrapper">
-                    <label class="form-name" for="plex">Plex</label>                   
-                    <div class="form-group" id="plex-group">
-                        <label class="form-label" for="instance">Instance</label>
-                        <div class="instance-btn-group">
-                            <input id="plex-instance-name"
-                                   type="text"
-                                   name="plex[instance-name][]"
-                                   placeholder="plex_1"
-                                   value="{{ plex_instances[0]['instance_name'] if plex_instances else '' }}"
-                                   class="form-input">
-                            <button class="btn btn-test" type="button" id="test-plex">Test</button>
-                        </div>
-                        <label class="form-label" for="url">URL</label>
-                        <input id="plex-instance-url"
-                               type="text"
-                               name="plex[url][]"
-                               placeholder="http://localhost:32400"
-                               value="{{ plex_instances[0]['url'] if plex_instances else '' }}"
-                               class="form-input">
-                        <label class="form-label" for="api">API</label>
-                        <input id="plex-api-key"
-                               type="text"
-                               name="plex[api-key][]"
-                               placeholder="plex-token"
-                               value="{{ plex_instances[0]['api_key'] if plex_instances else '' }}"
-                               class="form-input">
-                    </div>
-                    <div id="dynamic-plex-instance-div"></div>
-                    <button class="btn btn-primary btn-add" type="button" id="add-plex">
-                        <i class="fa fa-plus" aria-hidden="true"></i> Add Plex
-                    </button>
-                </div>
-            </form>
-        </div>
-        <div class="content-box">
-            <h2 class="content-heading">Poster Renamerr</h2>
-            <hr class="seperator">
-            <form id="poster-renamer-form">
-                <div class="form-group" id="poster-renamer-form-group">
-                    <label class="form-label" for="target-path">Target Path</label>
-                    <input type="text"
-                           id="target-path"
-                           name="target_path"
-                           placeholder="/kometa/assets"
-                           value="{{ target_path }}"
-                           class="form-input">
-                    <label class="form-label" for="source-dirs">Source Directories</label>
-                    <input type="text"
-                           name="source_dirs[]"
-                           placeholder="/posters/drazzilb08"
-                           value="{{ source_dirs[0] }}"
-                           class="form-input">
-                    <div class="form-group" id="source-dir-input-group"></div>
-                    <label class="form-label" for="library-names">Library Names</label>
-                    <input type="text"
-                           name="library_names[]"
-                           placeholder="Movies (UHD)"
-                           value="{{ library_names[0] }}"
-                           class="form-input">
-                    <div class="form-group" id="library-names-input-group"></div>
-                    <label class="form-label" for="instances">Instances</label>
-                    <input type="text"
-                           name="instances[]"
-                           placeholder="radarr1"
-                           value="{{ instances[0] }}"
-                           class="form-input">
-                    <div class="form-group" id="instances-input-group"></div>
-                    <div class="form-group-checkbox">
-                        <label class="form-label custom-checkbox-label">
-                            Asset Folders
-                            <input type="checkbox"
-                                   id="asset-folders"
-                                   name="asset_folders"
-                                   {% if asset_folders %}checked{% endif %}>
-                            <span class="checkmark-icon"><i class="fas fa-check"></i></span>
-                        </label>
-                        <label class="form-label custom-checkbox-label">
-                            Border Replacerr
-                            <input type="checkbox"
-                                   id="border-replacerr"
-                                   name="border_replacerr"
-                                   {% if border_replacerr %}checked{% endif %}>
-                            <span class="checkmark-icon"><i class="fas fa-check"></i></span>
-                        </label>                        
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn btn-primary flex-grow" type="button" id="add-library-name">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add Library
-                        </button>
-                        <button class="btn btn-primary flex-grow" type="button" id="add-source-dir">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add Source Dir
-                        </button>
-                        <button class="btn btn-primary flex-grow" type="button" id="add-instance">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add Instance
-                        </button>                        
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="content-box">
-            <div class="btn-submit">
-                <button id="save-settings" class="btn btn-primary flex-grow">Save settings</button>
+<div class="settings-container">
+    <div class="content-box">
+        <h2 class="content-heading">Instances</h2>
+        <hr class="separator">
+        <form id="instances-form">
+            <!-- RADARR Instance -->
+            <div class="instance-wrapper">
+                <label class="form-name">RADARR</label>
+                <div id="radarr-group-wrapper"></div>
+                <button class="btn btn-primary btn-add" type="button" id="add-radarr">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add Radarr
+                </button>
             </div>
+            <!-- SONARR Instance -->
+            <div class="instance-wrapper">
+                <label class="form-name">SONARR</label>
+                <div id="sonarr-group-wrapper"></div>
+                <button class="btn btn-primary btn-add" type="button" id="add-sonarr">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add Sonarr
+                </button>
+            </div>
+            <!-- PLEX Instance -->
+            <div class="instance-wrapper">
+                <label class="form-name">PLEX</label>
+                <div id="plex-group-wrapper"></div>
+                <button class="btn btn-primary btn-add" type="button" id="add-plex">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add Plex
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="content-box">
+        <h2 class="content-heading">Poster Renamerr</h2>
+        <hr class="separator">
+        <form id="poster-renamer-form"></form>
+    </div>
+    <div class="content-box">
+        <div class="btn-submit">
+            <button id="save-settings" class="btn btn-primary flex-grow">Save settings</button>
         </div>
     </div>
+</div>
 {% endblock layout_content_div %}
 {% block script_content %}
-    <script type="text/javascript"
-            src="{{ url_for('static', filename='js/settings/settings.js') }}"></script>
-    <script type="text/javascript">
-    //TODO: Refactor to create all elements with JS
-            document.addEventListener('DOMContentLoaded', function() {
-            const sourceDirs = {{ source_dirs|tojson }};
-            const libraryNames = {{ library_names|tojson }};
-            const instances = {{ instances|tojson }};
-            const radarrInstances = {{ radarr_instances|tojson }};
-            const sonarrInstances = {{ sonarr_instances|tojson }};
-            const plexInstances = {{ plex_instances|tojson }};       
-            
-            document.querySelectorAll('#radarr-group .btn-test').forEach(button => {
-                attachTestButtonListener(button, 'radarr');
-            });
-            
-            document.querySelectorAll('#plex-group .btn-test').forEach(button => {
-                attachTestButtonListener(button, 'plex');
-            });
-            
-            document.querySelectorAll('#sonarr-group .btn-test').forEach(button => {
-                attachTestButtonListener(button, 'sonarr');
-            });            
-            
-            if (sourceDirs.length > 1) {
-                for (let i = 1; i < sourceDirs.length; i++) {
-                    const newInputGroup = createInput('source_dirs', sourceDirs[i]);
-                    document.getElementById('source-dir-input-group').appendChild(newInputGroup)
-                }
-            }
-            if (libraryNames.length > 1) {
-                for (let i = 1; i < libraryNames.length; i++) {
-                    const newInputGroup = createInput('library_names', libraryNames[i]);
-                    document.getElementById('library-names-input-group').appendChild(newInputGroup);
-                }
-            }
-            if (instances.length > 1) {
-                for (let i = 1; i < instances.length; i++) {
-                    const newInputGroup = createInput('instances', instances[i]);
-                    document.getElementById('instances-input-group').appendChild(newInputGroup);
-                }
-            }            
-            if (radarrInstances.length > 1) {
-                for (let i = 1; i < radarrInstances.length; i++) {
-                    const newInstance = createInstance('radarr', i + 1);
-                    newInstance.querySelector('input[name="radarr[instance-name][]"]').value = radarrInstances[i].instance_name;
-                    newInstance.querySelector('input[name="radarr[url][]"]').value = radarrInstances[i].url;
-                    newInstance.querySelector('input[name="radarr[api-key][]"]').value = radarrInstances[i].api_key;
-                    document.getElementById('dynamic-radarr-instance-div').appendChild(newInstance);
-                }
-            }
-            if (sonarrInstances.length > 1) {
-                for (let i = 1; i < sonarrInstances.length; i++) {
-                    const newInstance = createInstance('sonarr', i + 1);
-                    newInstance.querySelector('input[name="sonarr[instance-name][]"]').value = sonarrInstances[i].instance_name;
-                    newInstance.querySelector('input[name="sonarr[url][]"]').value = sonarrInstances[i].url;
-                    newInstance.querySelector('input[name="sonarr[api-key][]"]').value = sonarrInstances[i].api_key;
-                    document.getElementById('dynamic-sonarr-instance-div').appendChild(newInstance);
-                }
-            }
-            if (plexInstances.length > 1) {
-                for (let i = 1; i < plexInstances.length; i++) {
-                    const newInstance = createInstance('plex', i + 1);
-                    newInstance.querySelector('input[name="plex[instance-name][]"]').value = plexInstances[i].instance_name;
-                    newInstance.querySelector('input[name="plex[url][]"]').value = plexInstances[i].url;
-                    newInstance.querySelector('input[name="plex[api-key][]"]').value = plexInstances[i].api_key;
-                    document.getElementById('dynamic-plex-instance-div').appendChild(newInstance);
-                }
-            }                        
-        });
-    </script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/settings/settings.js') }}"></script>
 {% endblock script_content %}

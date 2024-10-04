@@ -31,7 +31,7 @@ class Database:
         with self.get_db_connection() as conn:
             with closing(conn.cursor()) as cursor:
                 cursor.execute(
-                    "INSERT OR IGNORE INTO file_cache (file_path, file_hash, source_path) VALUES (?, ?, ?)",
+                    "INSERT OR REPLACE INTO file_cache (file_path, file_hash, source_path) VALUES (?, ?, ?)",
                     (file_path, file_hash, source_path)
                 )
             conn.commit()

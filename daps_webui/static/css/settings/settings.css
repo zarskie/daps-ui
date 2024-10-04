@@ -15,6 +15,7 @@
 #instances-form {
     display: flex;
     flex-direction: row;
+    gap: 20px;
 }
 
 #poster-renamer-form {
@@ -67,8 +68,6 @@
 
 .form-label {
     color: var(--light);
-    margin-bottom: 5px;
-    margin-top: 5px;
     font-size: 13px;
     font-weight: bold;
 }
@@ -143,6 +142,8 @@
 
 .form-input {
     padding: 0.375rem 0.75rem;
+    margin-top: 6px;
+    margin-bottom: 6px;
     width: 100%;
     font-size: 16px;
     border-radius: 4px;
@@ -174,12 +175,16 @@
     margin-top: 5px;
 }
 
-.instance-btn-group {
+.instance-group-div {
     display: flex;
     flex-direction: row;
     gap: 5px;
 }
 
+.instance-wrapper {
+    display: flex;
+    flex-direction: column;
+}
 .btn {
     border: none;
     padding: 10px 15px;
@@ -196,6 +201,12 @@
     background-color: var(--dark);
     color: white;
 }
+.span-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
 
 .flex-grow {
     flex-grow: 1;
@@ -211,46 +222,46 @@
     transform: scale(1.05);
 }
 
-.btn-group {
+.button-div {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
-    gap: 10px;
+    gap: 5px;
 }
-
 .btn-add {
-    margin-top: 10px;
+    white-space: nowrap;
 }
-
 .btn-submit {
     display: flex;
     align-items: center;
     margin-top: 10px;
     height: 100%;
 }
+.form-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
 
 #radarr-group-wrapper {
     display: flex;
     flex-direction: column;
-    /* Stack instances in a column */
-    margin-right: 30px;
+    margin-bottom: 5px;
 }
 
 #plex-group-wrapper {
     display: flex;
     flex-direction: column;
-    /* Stack instances in a column */
-    /* margin-right: 30px; */
+    margin-bottom: 5px;
 }
 
 #sonarr-group-wrapper {
     display: flex;
     flex-direction: column;
-    /* Stack instances in a column */
-    margin-right: 30px;
+    margin-bottom: 5px;
 }
 
-.seperator {
+.separator {
     color: var(--light);
     margin-top: 15px;
     margin-bottom: 15px;

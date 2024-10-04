@@ -1,77 +1,60 @@
 from flask import Blueprint, render_template, request, jsonify
 from daps_webui import db, models
 import requests
-import sys
 
 settings = Blueprint("settings", __name__)
 
 
-@settings.route("/settings", methods=["GET"])
+@settings.route("/settings", methods = ["GET"])
 def settings_route():
-    existing_settings = models.Settings.query.first()
-    radarr_instances = models.RadarrInstance.query.all()
-    sonarr_instances = models.SonarrInstance.query.all()
-    plex_instances = models.PlexInstance.query.all()
+    return render_template("settings/settings.html")
 
-    radarr_instance_data = [
-        {
-            "instance_name": instance.instance_name,
-            "url": instance.url,
-            "api_key": instance.api_key,
+@settings.route("/get-settings", methods=["GET"])
+def get_settings():
+    try:
+        settings = models.Settings.query.first()
+        radarr_instances = models.RadarrInstance.query.all()
+        sonarr_instances = models.SonarrInstance.query.all()
+        plex_instances = models.PlexInstance.query.all()
+
+        data = {
+            "targetPath": getattr(settings, "target_path", ""),
+            "sourceDirs": getattr(settings, "source_dirs", "").split(",") if getattr(settings, "source_dirs", "") else [],
+            "libraryNames": getattr(settings, "library_names", "").split(",") if getattr(settings, "library_names", "") else [],
+            "instances": getattr(settings, "instances", "").split(",") if getattr(settings, "instances", "") else [],
+            "assetFolders": getattr(settings, "asset_folders", False), 
+            "borderReplacer": getattr(settings, "border_replacerr", False), 
+
+            "radarrInstances": [
+                {
+                    "instanceName": instance.instance_name,
+                    "url": instance.url,
+                    "apiKey": instance.api_key,
+                }
+                for instance in radarr_instances
+            ],
+
+            "sonarrInstances": [
+                {
+                    "instanceName": instance.instance_name,
+                    "url": instance.url,
+                    "apiKey": instance.api_key,
+                }
+                for instance in sonarr_instances
+            ],
+
+            "plexInstances": [
+                {
+                    "instanceName": instance.instance_name,
+                    "url": instance.url,
+                    "apiKey": instance.api_key,
+                }
+                for instance in plex_instances
+            ],
         }
-        for instance in radarr_instances
-    ]
-
-    sonarr_instance_data = [
-        {
-            "instance_name": instance.instance_name,
-            "url": instance.url,
-            "api_key": instance.api_key,
-        }
-        for instance in sonarr_instances
-    ]
-
-    plex_instance_data = [
-        {
-            "instance_name": instance.instance_name,
-            "url": instance.url,
-            "api_key": instance.api_key,
-        }
-        for instance in plex_instances
-    ]
-
-    if (
-        radarr_instance_data
-        or sonarr_instance_data
-        or plex_instance_data
-        or existing_settings
-    ):
-        return render_template(
-            "settings/settings.html",
-            target_path=existing_settings.target_path,
-            source_dirs=existing_settings.source_dirs.split(","),
-            library_names=existing_settings.library_names.split(","),
-            instances=existing_settings.instances.split(","),
-            asset_folders=existing_settings.asset_folders,
-            border_replacerr=existing_settings.border_replacerr,
-            radarr_instances=radarr_instance_data,
-            sonarr_instances=sonarr_instance_data,
-            plex_instances=plex_instance_data,
-        )
-    else:
-        return render_template(
-            "settings/settings.html",
-            target_path="",
-            source_dirs=[],
-            library_names=[],
-            instances=[],
-            asset_folders=False,
-            border_replacerr=False,
-            radarr_instances=[],
-            sonarr_instances=[],
-            plex_instances=[],
-        )
-
+        return jsonify({"success": True, "settings": data})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
 
 @settings.route("/save-settings", methods=["POST"])
 def save_settings():
@@ -98,6 +81,7 @@ def save_settings():
             asset_folders=asset_folders,
             border_replacerr=border_replacerr,
         )
+        print(f"target path: {target_path}", flush=True)
         db.session.add(new_settings)
 
         models.RadarrInstance.query.delete()

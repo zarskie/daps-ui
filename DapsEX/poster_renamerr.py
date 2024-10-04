@@ -440,7 +440,7 @@ class PosterRenamerr:
 
                 if file_hash != cached_hash or cached_source != current_source:
                     print(
-                        f"Replacing file from {cached_source}: {file_path.name} -> {target_path}"
+                        f"Replacing file from {cached_source}: {current_source}\nCopied and renamed: {file_path.name} -> {target_path}"
                     )
                     shutil.copy2(file_path, target_path)
                     self.db.update_file(file_hash, current_source, str(target_path))
